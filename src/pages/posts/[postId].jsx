@@ -4,11 +4,13 @@ import Post from "@/components/Post.jsx"
 import api from "@/services/api.js"
 import { useEffect, useState } from "react"
 
+export const getServerSideProps = async (context) => {
+  return { props: { query: context.query } }
+}
+
 const PostsSinglePage = (props) => {
   const {
-    router: {
-      query: { postId },
-    },
+    query: { postId },
   } = props
   const [post, setPost] = useState(null)
 
