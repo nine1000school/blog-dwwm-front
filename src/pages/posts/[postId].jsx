@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading.jsx"
 import Page from "@/components/Page.jsx"
 import Post from "@/components/Post.jsx"
 import api from "@/services/api.js"
@@ -10,8 +11,6 @@ const PostsSinglePage = (props) => {
     },
   } = props
   const [post, setPost] = useState(null)
-
-  console.log(post)
 
   useEffect(() => {
     ;(async () => {
@@ -26,7 +25,7 @@ const PostsSinglePage = (props) => {
   }, [postId])
 
   if (!post) {
-    return "Loading..."
+    return <Loading />
   }
 
   return (

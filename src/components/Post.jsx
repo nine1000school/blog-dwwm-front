@@ -1,4 +1,5 @@
 import Link from "@/components/Link.jsx"
+import { formatLongDateTime } from "@/formatters/date.js"
 import classNames from "classnames"
 
 const Post = (props) => {
@@ -16,7 +17,14 @@ const Post = (props) => {
           </Link>
         </h1>
         <p className="text-sm text-slate-600">
-          Published on {post.publishedAt}
+          Published by{" "}
+          <Link
+            href={`/users/${post.user.id}`}
+            className="font-bold hover:underline"
+          >
+            {post.user.displayName}
+          </Link>{" "}
+          on {formatLongDateTime(new Date(post.publishedAt))}
         </p>
       </header>
 
