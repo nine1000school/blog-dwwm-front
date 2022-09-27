@@ -25,4 +25,6 @@ const IndexPage = () => {
   )
 }
 
+IndexPage.isPublic = true
+
 export default IndexPage

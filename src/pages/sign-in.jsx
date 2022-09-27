@@ -8,6 +8,7 @@ import { validateEmailOrUsername, validatePassword } from "@/validators.js"
 import { AxiosError } from "axios"
 import { Form, Formik } from "formik"
 import { useRouter } from "next/router.js"
+import qs from "qs"
 import { useCallback, useState } from "react"
 import * as yup from "yup"
 
@@ -41,7 +42,8 @@ const SignInPage = () => {
 
         if (jwt) {
           setSession(jwt)
-          router.push("/")
+
+          router.push(qs.parse(location.search.slice(1))?.returnTo || "/")
 
           return
         }
@@ -89,5 +91,7 @@ const SignInPage = () => {
     </Page>
   )
 }
+
+SignInPage.isPublic = true
 
 export default SignInPage

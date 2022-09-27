@@ -93,4 +93,6 @@ const SignUpPage = () => {
   )
 }
 
+SignUpPage.isPublic = true
+
 export default SignUpPage

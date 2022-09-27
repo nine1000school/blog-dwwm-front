@@ -20,14 +20,24 @@ const Page = (props) => {
         <nav>
           <ul className="flex h-full items-center px-4">
             {session ? (
-              <li>
-                <span
-                  className="font-bold p-4 hover:underline cursor-pointer"
-                  onClick={logout}
-                >
-                  Logout
-                </span>
-              </li>
+              <>
+                <li>
+                  <Link
+                    href="/settings"
+                    className="font-bold p-4 hover:underline cursor-pointer"
+                  >
+                    Settings
+                  </Link>
+                </li>
+                <li>
+                  <span
+                    className="font-bold p-4 hover:underline cursor-pointer"
+                    onClick={logout}
+                  >
+                    Logout
+                  </span>
+                </li>
+              </>
             ) : (
               <>
                 <li>

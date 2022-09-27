@@ -1,4 +1,6 @@
+import Loading from "@/components/Loading.jsx"
 import deepmerge from "deepmerge"
+import { useRouter } from "next/router.js"
 import {
   createContext,
   useCallback,
@@ -7,14 +9,17 @@ import {
   useState,
 } from "react"
 
+const LOADING_SESSION = Symbol("loading session")
 const AppContext = createContext()
 const initialState = {
-  session: null,
+  session: LOADING_SESSION,
 }
 
 export const useAppContext = () => useContext(AppContext)
 
 export const AppContextProvider = (props) => {
+  const router = useRouter()
+  const { isPublicPage, ...otherProps } = props
   const [state, setState] = useState(initialState)
   const updateState = useCallback(
     (newState) =>
@@ -30,9 +35,9 @@ export const AppContextProvider = (props) => {
         return
       }
 
-      const { session } = JSON.parse(atob(jwt.split(".")[1]))
-
       localStorage.setItem("session_jwt", jwt)
+
+      const { session } = JSON.parse(atob(jwt.split(".")[1]))
 
       updateState({ session })
     },
@@ -43,9 +48,21 @@ export const AppContextProvider = (props) => {
     setSession(localStorage.getItem("session_jwt"))
   }, [setSession])
 
+  useEffect(() => {
+    if (!isPublicPage && !state.session) {
+      router.push(`/sign-in?returnTo=${encodeURIComponent(location.pathname)}`)
+
+      return
+    }
+  }, [router, state.session, isPublicPage])
+
+  if (!isPublicPage && (!state.session || state.session === LOADING_SESSION)) {
+    return <Loading />
+  }
+
   return (
     <AppContext.Provider
-      {...props}
+      {...otherProps}
       value={{
         setSession,
         state,
